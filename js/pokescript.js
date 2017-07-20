@@ -9,7 +9,7 @@ $pokeSearch.on('click', function(event){
 	$.ajax({
 		url: "http://pokeapi.co/api/v2/pokemon/"+ $pokeInput,
 		dataType: 'json',
-		success: search,
+		success: searchPokemon,
 		error: error
 	});
 
@@ -19,13 +19,12 @@ function error(){
 	alert('Pokemon no capturado');
 }
 
-function search (data){
+function searchPokemon (data){
 
 	var $pokeId = data.id;
-
 	//Shearch de name and type(s)
-	var $pokeCard = $('.pokeCard');
-	$pokeCard.empty();
+	var $pokeCard = $('.baseDiv');
+	//$pokeCard.empty();
 	$pokeCard.append('<h2>' + data.name + '</h2>');
 	$pokeCard.append('<img src=' + data.sprites.front_default + '>')
 
@@ -42,10 +41,40 @@ function search (data){
 
 		$.get('http://pokeapi.co' + $uriDescription, function(dataV1uri){
 
-			$pokeCard.append('<p>'+ dataV1uri.description + '</p>');
+			$pokeCard.prepend('<p>'+ dataV1uri.description + '</p>');
 		});
 	});
 
 
 }
 
+			// Busqueda por tipos
+
+var $pokeBtn = $('.pokeBtn');
+$pokeBtn.on('click', function(event){
+	$.ajax({
+		url: "http://pokeapi.co/api/v2/type/"+ event.target.dataset.id,
+		dataType: 'json',
+		success: searchType,
+		error: error
+	});
+});
+function searchType (dataType) {
+
+	
+	for (var i = 0; i <= 9; i++) {
+
+		var $pokeUrl = dataType.pokemon[i].pokemon.url
+		$.get ($pokeUrl, function(typeData){
+			 
+			 searchPokemon (typeData)
+		});
+	
+
+	}
+
+
+
+
+
+}

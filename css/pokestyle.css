@@ -1,6 +1,13 @@
-.pokeCard {
+.baseDiv {
 	background-color: grey;
 	margin: 50px;
 	padding: 10px;
 	width: 600px;
+}
+.types {
+	display: flex;
+}
+.types li {
+	margin-top: 20px;
+	margin-right: 10px;
 }
